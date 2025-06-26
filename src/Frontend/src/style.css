@@ -115,3 +115,49 @@ html,
   background-color: #0c2e47;
   box-shadow: 0 6px 15px rgba(12, 46, 71, 0.5);
 }
+
+.hero-section {
+  text-align: center;
+  padding: 4rem 1.5rem 5rem 1.5rem;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.blue-background {
+  background-color: var(--blue-bg);
+}
+
+.dark-headline {
+  font-weight: 800;
+  font-size: 2.75rem;
+  margin-bottom: 1rem;
+  color: var(--dark-text);
+}
+
+.dark-subheading {
+  font-weight: 500;
+  font-size: 1.125rem;
+  margin-bottom: 3.5rem;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--dark-text-light);
+}
+
+.btn-try.dark-button {
+  background-color: var(--dark-blue);
+  border: none;
+  padding: 14px 32px;
+  border-radius: var(--btn-radius);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(16, 53, 84, 0.3);
+}
+
+.btn-try.dark-button:hover {
+  background-color: #0c2e47;
+  box-shadow: 0 6px 15px rgba(12, 46, 71, 0.5);
+}

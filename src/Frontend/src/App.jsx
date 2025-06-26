@@ -58,8 +58,19 @@ function Home() {
           Create
         </button>
       </nav>
-
       
+      <section className="hero-section blue-background" id="home">
+        <h1 className="headline dark-headline">
+          Transform Your Photos into <br />
+          Ghibli Art with GhibliCraft
+        </h1>
+        <p className="subheading dark-subheading">
+          Experience the magic of Studio Ghibli's artistic style with our
+          AI-powered Ghibli image generator tool.
+        </p>
+        <button className="btn-try dark-button" onClick={() => navigate("/create")}>Try Ghibli AI</button>
+      </section>
+
     </>
   );
 }
