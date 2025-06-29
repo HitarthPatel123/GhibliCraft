@@ -1,6 +1,8 @@
 import React from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import './style.css'
+import Create from "./Create.jsx";
+
 
 const features = [
   {
@@ -275,6 +277,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/create" element={<Create />} />
     </Routes>
   );
 }
