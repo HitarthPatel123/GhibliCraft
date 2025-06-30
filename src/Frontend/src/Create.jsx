@@ -109,6 +109,75 @@ const Create = () => {
           Create
         </button>
       </nav>
+
+      <div className="tabs-container" role="tablist" aria-label="Create Options">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "photo"}
+          tabIndex={activeTab === "photo" ? 0 : -1}
+          className={`tab-btn ${activeTab === "photo" ? "active-tab" : ""}`}
+          onClick={() => handleTabClick("photo")}
+          onKeyDown={(e) => handleKeyDown(e, "photo")}
+          id="tab-photo"
+          aria-controls="tabpanel-photo"
+        >
+          Photo to Art
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "text"}
+          tabIndex={activeTab === "text" ? 0 : -1}
+          className={`tab-btn ${activeTab === "text" ? "active-tab" : ""}`}
+          onClick={() => handleTabClick("text")}
+          onKeyDown={(e) => handleKeyDown(e, "text")}
+          id="tab-text"
+          aria-controls="tabpanel-text"
+        >
+          Text to Art
+        </button>
+      </div>
+
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-column">
+            <h2>
+              <span className="footer-logo">G</span> Ghibli AI
+            </h2>
+            <p>
+              Inspired by the magical words of Studio Ghibli. This is a fan
+              project and not affiliated with Studio Ghibli Inc.
+            </p>
+          </div>
+          <div className="footer-column">
+            <h3>Links</h3>
+            <ul>
+              <li>Home</li>
+              <li>Create</li>
+              <li>Features</li>
+              <li>Gallery</li>
+              <li>FAQ</li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h3>Features</h3>
+            <ul>
+              <li>Photo to Ghibli Art</li>
+              <li>Text to Ghibli Art</li>
+              <li>Character Generator</li>
+              <li>Background Generator</li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h3>Legal</h3>
+            <ul>
+              <li>Terms of Service</li>
+              <li>Privacy Policy</li>
+            </ul>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
