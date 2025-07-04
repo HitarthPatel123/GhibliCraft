@@ -12,6 +12,14 @@ const Create = () => {
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [textPrompt, setTextPrompt] = useState("");
+  const [selectedStyle, setSelectedStyle] = useState("Analog Film");
+  const [generatedImage, setGeneratedImage] = useState(null);
+  const [isTextLoading, setIsTextLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
 
@@ -21,6 +29,10 @@ const Create = () => {
     setTransformedImage(null);
     setIsLoading(false);
 
+    setTextPrompt("");
+    setSelectedStyle("Analog Film");
+    setGeneratedImage(null);
+    setIsTextLoading(false);
   };
 
   const handleFileChange = (event) => {
@@ -47,6 +59,87 @@ const Create = () => {
   };
 
   const isActive = (path) => location.pathname === path;
+
+  const handleTransform = async () => {
+    if (!selectedFile) return;
+
+    setIsLoading(true);
+    setTransformedImage(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      formData.append("prompt", additionalDetails || "");
+
+      const API_URL = "http://localhost:8080/api/v1/generate";
+
+      const response = await fetch(API_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Network response was not ok. Status: ${response.status}. Message: ${errorText}`
+        );
+      }
+
+      const resultBlob = await response.blob();
+      const resultURL = URL.createObjectURL(resultBlob);
+      setTransformedImage(resultURL);
+
+      alert("Transformation completed!");
+    } catch (error) {
+      console.error("Error generating image:", error);
+      alert(
+        "Failed to transform image. Please try again. Please Ensure you enter .png file and size should be less than 8KB."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTextGenerate = async () => {
+    if (!textPrompt.trim()) {
+      alert("Please enter a text description to generate art.");
+      return;
+    }
+
+    setIsTextLoading(true);
+    setGeneratedImage(null);
+
+    const payload={textPrompt,selectedStyle}
+
+    try {
+      const API_URL = "http://localhost:8080/api/v1/generate-from-text";
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Network response was not ok. Status: ${response.status}. Message: ${errorText}`
+        );
+      }
+
+      const resultBlob = await response.blob();
+      const resultURL = URL.createObjectURL(resultBlob);
+      setGeneratedImage(resultURL);
+
+      alert("Image generated successfully!");
+    } catch (error) {
+      console.error("Error generating image from text:", error);
+      alert("Failed to generate image from text. Please try again.");
+    } finally {
+      setIsTextLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -137,6 +230,260 @@ const Create = () => {
         >
           Text to Art
         </button>
+      </div>
+
+      <div className="create-content">
+        {/* Photo to Art Tab */}
+        {activeTab === "photo" && (
+          <>
+            <section
+              id="tabpanel-photo"
+              role="tabpanel"
+              aria-labelledby="tab-photo"
+              className="left-panel"
+            >
+              <h3>Photo to Ghibli Art</h3>
+
+              <label
+                htmlFor="file-upload"
+                className="upload-box"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    document.getElementById("file-upload").click();
+                  }
+                }}
+              >
+                {photo ? (
+                  <img
+                    src={photo}
+                    alt="Uploaded preview"
+                    className="uploaded-preview"
+                    aria-live="polite"
+                  />
+                ) : (
+                  <>
+                    {/* SVG icon and browse button */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                      className="upload-icon"
+                      width="48"
+                      height="48"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v8m0 0l-3-3m3 3l3-3m-6-9h6a2 2 0 0 1 2 2v1H6v-1a2 2 0 0 1 2-2z"
+                      />
+                    </svg>
+                    <p className="upload-text">
+                      Drag and drop a photo, or click to browse
+                    </p>
+                    <button
+                      type="button"
+                      className="btn-browse"
+                      onClick={() => document.getElementById("file-upload").click()}
+                    >
+                      Browse
+                    </button>
+                  </>
+                )}
+                <input
+                  id="file-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                  aria-label="Upload image file"
+                />
+              </label>
+
+              <label htmlFor="details-textarea" className="details-label">
+                Additional Details (optional)
+              </label>
+              <textarea
+                id="details-textarea"
+                placeholder="Provide any extra details or prompts here..."
+                className="details-textarea"
+                value={additionalDetails}
+                onChange={(e) => setAdditionalDetails(e.target.value)}
+                rows={4}
+              ></textarea>
+
+              <button
+                className="btn-transform"
+                onClick={handleTransform}
+                disabled={!photo || isLoading}
+                aria-disabled={!photo || isLoading}
+                aria-live="polite"
+              >
+                {isLoading ? "Transforming..." : "Transform to Ghibli Art"}
+              </button>
+            </section>
+
+            <section className="right-panel" aria-live="polite" aria-atomic="true">
+              {isLoading ? (
+                <div className="art-preview-box">Processing your image, please wait...</div>
+              ) : transformedImage ? (
+                <>
+                  <img
+                    src={transformedImage}
+                    alt="Ghibli style transformed art"
+                    className="generated-art"
+                  />
+                  <a
+                    href={transformedImage}
+                    download="ghibli-art.png"
+                    className="btn-download"
+                    style={{
+                      display: "inline-block",
+                      marginTop: "1rem",
+                      textDecoration: "none",
+                      padding: "8px 16px",
+                      backgroundColor: "#4caf50",
+                      color: "white",
+                      borderRadius: "4px",
+                      fontWeight: "bold",
+                    }}
+                    aria-label="Download transformed image"
+                  >
+                    Download Image
+                  </a>
+                </>
+              ) : (
+                <div className="art-preview-box">
+                  Upload a photo and click "Transform to Ghibli Art" to see your transformed art here.
+                </div>
+              )}
+            </section>
+          </>
+        )}
+
+        {/* Text to Art Tab */}
+        {activeTab === "text" && (
+          <section
+            id="tabpanel-text"
+            role="tabpanel"
+            aria-labelledby="tab-text"
+            style={{
+              width: "800px",
+              margin: "0 auto",
+              padding: "1rem",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              backgroundColor: "#f9f9f9",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "1rem",
+            }}
+          >
+            <h3 style={{ alignSelf: "flex-start" }}>Text to Ghibli Art</h3>
+
+            <textarea
+              value={textPrompt}
+              onChange={(e) => setTextPrompt(e.target.value)}
+              placeholder="Generate Ghibli art from your text description"
+              aria-label="Text description to generate Ghibli art"
+              rows={8}
+              style={{
+                width: "100%",
+                padding: "1rem",
+                fontSize: "1rem",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+                resize: "vertical",
+                boxSizing: "border-box",
+                backgroundColor: "#f0f0f0",
+                color: "#333",
+              }}
+            />
+
+            <label
+              htmlFor="style-select"
+              style={{ alignSelf: "flex-start", fontWeight: "bold" }}
+            >
+              Ghibli Style
+            </label>
+            <select
+              id="style-select"
+              value={selectedStyle}
+              onChange={(e) => setSelectedStyle(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "0.5rem",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+                fontSize: "1rem",
+              }}
+            >
+
+              <option value="Analog Film">Analog Film</option>
+              <option value="Anime">Anime</option>
+              <option value="Cinematic">Cinematic</option>
+              <option value="Comic Book">Comic Book</option>
+              <option value="Digital Art">Digital Art</option>
+            </select>
+
+            <button
+              type="button"
+              onClick={handleTextGenerate}
+              disabled={!textPrompt.trim() || isTextLoading}
+              aria-disabled={!textPrompt.trim() || isTextLoading}
+              style={{
+                padding: "0.75rem 1.5rem",
+                backgroundColor: "#103554",
+                color: "white",
+                fontSize: "1rem",
+                borderRadius: "6px",
+                border: "none",
+                cursor:
+                  !textPrompt.trim() || isTextLoading ? "not-allowed" : "pointer",
+              }}
+              aria-live="polite"
+            >
+              {isTextLoading ? "Generating..." : "Generate"}
+            </button>
+
+            {generatedImage && (
+              <>
+                <img
+                  src={generatedImage}
+                  alt="Generated Ghibli style art"
+                  style={{
+                    marginTop: "1rem",
+                    maxWidth: "100%",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                  }}
+                />
+                <a
+                  href={generatedImage} 
+                  download="generated-ghibli-art.png"
+                  style={{
+                    marginTop: "0.5rem",
+                    textDecoration: "none",
+                    padding: "8px 16px",
+                    backgroundColor: "#4caf50",
+                    color: "white",
+                    borderRadius: "6px",
+                    fontWeight: "bold",
+                    display: "inline-block",
+                  }}
+                  aria-label="Download generated image"
+                >
+                  Download Image
+                </a>
+              </>
+            )}
+          </section>
+        )}
       </div>
 
       <footer className="footer">

@@ -422,3 +422,17 @@ html,
   text-decoration: underline;
   color: #0c2e47;
 }
+
+@media (max-width: 850px) {
+  .create-content {
+    flex-direction: column;
+  }
+  .left-panel,
+  .right-panel {
+    max-width: 100%;
+    min-height: 320px;
+  }
+  .navbar-menu {
+    gap: 20px;
+  }
+}
