@@ -6,12 +6,14 @@ import "./create.css";
 const Create = () => {
   const [activeTab, setActiveTab] = useState("photo");
 
+  // States for Photo to Art Feature
   const [photo, setPhoto] = useState(null);
   const [transformedImage, setTransformedImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // States for Text to Art Feature
   const [textPrompt, setTextPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("Analog Film");
   const [generatedImage, setGeneratedImage] = useState(null);
@@ -35,6 +37,7 @@ const Create = () => {
     setIsTextLoading(false);
   };
 
+  // Basic Transformations
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -60,6 +63,7 @@ const Create = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  // Connecting With Backend for Photo to Art 
   const handleTransform = async () => {
     if (!selectedFile) return;
 
@@ -100,6 +104,7 @@ const Create = () => {
     }
   };
 
+  // Connecting With Backend for Text to Art
   const handleTextGenerate = async () => {
     if (!textPrompt.trim()) {
       alert("Please enter a text description to generate art.");
@@ -143,6 +148,7 @@ const Create = () => {
 
   return (
     <div>
+      {/* Navbar */}
       <nav className="navbar">
         <div
           className="navbar-left"
@@ -203,6 +209,7 @@ const Create = () => {
         </button>
       </nav>
 
+      {/* Tabs */}
       <div className="tabs-container" role="tablist" aria-label="Create Options">
         <button
           type="button"
@@ -231,7 +238,7 @@ const Create = () => {
           Text to Art
         </button>
       </div>
-
+      
       <div className="create-content">
         {/* Photo to Art Tab */}
         {activeTab === "photo" && (
@@ -264,7 +271,6 @@ const Create = () => {
                   />
                 ) : (
                   <>
-                    {/* SVG icon and browse button */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -485,7 +491,8 @@ const Create = () => {
           </section>
         )}
       </div>
-
+      
+      {/* Footer */}
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-column">

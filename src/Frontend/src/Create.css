@@ -39,6 +39,8 @@ html,
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Navbar */
+
 .navbar {
   display: flex;
   align-items: center;
@@ -136,6 +138,8 @@ html,
   outline: none;
   box-shadow: 0 6px 14px rgba(17,25,40,0.3);
 }
+
+/* Tabs */
 
 .tabs-container {
   margin: 24px 100px 32px 60px;
@@ -351,6 +355,8 @@ html,
   user-select: none;
 }
 
+/* Footer */
+
 .footer {
   background: linear-gradient(to bottom, #c0d9ec, #8bb8d9);
   padding: 40px 20px;
@@ -423,6 +429,7 @@ html,
   color: #0c2e47;
 }
 
+/* To ensure responsiveness */
 @media (max-width: 850px) {
   .create-content {
     flex-direction: column;

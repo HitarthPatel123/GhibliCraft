@@ -33,7 +33,7 @@ html,
   scroll-behavior: smooth;
 }
 
-
+/* Navbar */
 .navbar {
   display: flex;
   align-items: center;
@@ -118,6 +118,8 @@ html,
   box-shadow: 0 6px 15px rgba(12, 46, 71, 0.5);
 }
 
+/* Hero Section */
+
 .hero-section {
   text-align: center;
   padding: 4rem 1.5rem 5rem 1.5rem;
@@ -163,6 +165,8 @@ html,
   background-color: #0c2e47;
   box-shadow: 0 6px 15px rgba(12, 46, 71, 0.5);
 }
+
+/* Features Section */
 
 .features-section {
   max-width: 1024px;
@@ -226,6 +230,8 @@ html,
   color: var(--dark-text-light);
 }
 
+/* Gallery Section */
+
 .gallery-section {
   max-width: 1024px;
   margin: 0 auto 4rem auto;
@@ -260,6 +266,7 @@ html,
   display: block;
 }
 
+/* FAQ section */
 .faq-section div > div {
   transition: box-shadow 0.3s ease;
 }
@@ -267,6 +274,8 @@ html,
 .faq-section div > div:hover {
   box-shadow: 0 10px 25px rgba(16, 53, 84, 0.15);
 }
+
+/* Footer */
 
 .footer {
   background: linear-gradient(to bottom, #c0d9ec, #8bb8d9);
@@ -344,6 +353,7 @@ html,
   color: #0c2e47;
 }
 
+/* To ensure responsiveness */
 @media (max-width: 768px) {
   .hero-section {
     padding: 3rem 1rem 4rem 1rem;

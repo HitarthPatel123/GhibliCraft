@@ -94,6 +94,7 @@ function Home() {
 
   return (
     <>
+      {/* Navbar */}
       <nav className="navbar blue-navbar">
         <div className="navbar-left">
           <div onClick={reloadPage} className="logo-circle-dark" style={{ cursor: "pointer" }}>G</div>
@@ -141,6 +142,7 @@ function Home() {
         </button>
       </nav>
 
+      {/* Hero Section */}
       <section className="hero-section blue-background" id="home">
         <h1 className="headline dark-headline">
           Transform Your Photos into <br />
@@ -153,6 +155,7 @@ function Home() {
         <button className="btn-try dark-button" onClick={() => navigate("/create")}>Try Ghibli AI</button>
       </section>
 
+      {/* Features Section */}
       <section className="features-section blue-background" id="features">
         <h2 className="features-heading dark-headline">Ghibli AI Features</h2>
         <div className="features-grid">
@@ -166,6 +169,7 @@ function Home() {
         </div>
       </section>
 
+      {/* Gallery Section */}
       <section className="gallery-section blue-background" id="gallery">
         <h2 className="features-heading dark-headline">
           Magical Ghibli AI Transformations Gallery
@@ -179,6 +183,7 @@ function Home() {
         </div>
       </section>
 
+      {/* FAQ Section */}
       <section
         className="faq-section"
         style={{ padding: "2rem", backgroundColor: "#e6f0f7" }}
@@ -228,6 +233,7 @@ function Home() {
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-column">
@@ -272,7 +278,7 @@ function Home() {
   );
 }
 
-
+// React Routing 
 function App() {
   return (
     <Routes>
